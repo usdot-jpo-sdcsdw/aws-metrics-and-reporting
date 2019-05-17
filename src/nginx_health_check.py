@@ -47,6 +47,7 @@ def test_nginx_redirect(url):
                                     1.0
                                 )
     else:
+        print(resp.status_code)
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
