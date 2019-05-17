@@ -30,13 +30,14 @@ def put_metric_data_wrapper(cloudwatch, namespace, metric_name, dim_name, dim_va
 
 """
 Checks response status of HEAD request
-If an 200 response status is received, record a value of 1.0 in cloudwatch
+If a 200 response status is received, record a value of 1.0 in cloudwatch
 Else, record a value of 0.0 in cloudwatch
 """
 def test_nginx_redirect(url):
-    try:
-        cloudwatch = boto3.client('cloudwatch')
-        resp = requests.head(url)
+    cloudwatch = boto3.client('cloudwatch')
+    resp = requests.head(url)
+	
+	if resp.status_code == 200:
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
@@ -45,7 +46,7 @@ def test_nginx_redirect(url):
                                     'NginxRedirect', 
                                     1.0
                                 )
-    except ConnectionError:
+    else:
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
