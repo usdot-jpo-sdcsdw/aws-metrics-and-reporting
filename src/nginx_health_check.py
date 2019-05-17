@@ -37,7 +37,7 @@ def test_nginx_redirect(url):
     cloudwatch = boto3.client('cloudwatch')
     resp = requests.head(url)
 	
-	if resp.status_code == 200:
+    if resp.status_code == 200:
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
