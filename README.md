@@ -2,7 +2,7 @@
 
 This repository contains:
 * (1) scripts to perform health checks on system resources and record metrics in Amazon Cloudwatch
-* (2) scripts to access the Amazon Cloudwatch metrics and perform uptime calculations for each resource
+* (2) script to access the Amazon Cloudwatch metrics and perform uptime calculations for each resource
 
 ### Prerequisites
 * Python: https://www.python.org/downloads/
@@ -10,6 +10,7 @@ This repository contains:
 * Additional Python packages (recommended installation via pip):
     * boto3: https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
     * kubernetes: https://github.com/kubernetes-client/python
+    * requests: https://pypi.org/project/requests/2.7.0/
 * Git: https://git-scm.com/
 
 ### Getting Started
