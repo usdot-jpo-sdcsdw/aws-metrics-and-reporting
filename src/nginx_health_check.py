@@ -2,7 +2,7 @@
 
 import boto3
 import requests
-from requests import ConnectionError
+import requests
 import datetime
 import os
 
@@ -47,6 +47,7 @@ def test_nginx_redirect(url):
                                     1.0
                                 )
     else:
+        print("HEAD request returned a non-302 status code: " + str(resp.status_code))
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
