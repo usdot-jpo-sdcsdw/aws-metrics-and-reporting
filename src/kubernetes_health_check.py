@@ -26,6 +26,21 @@ def put_metric_wrapper(cloudwatch, namespace, metric_name, dimension_name,
     )
     
 """
+Check if variable is None. If it is None, change the value to 0.
+This function is used since the Kubernetes API can return metrics
+with value None (e.g., status.available_replicas returns None).
+None is an invalid value for Cloudwatch metrics and will raise an
+error, and therefore the corresponding value of 0 should be recorded 
+in Cloudwatch. Valid Cloudwatch metric value types are int, float, 
+double, or long.
+"""
+def none_check(metric):
+    if metric is None:
+        return 0
+    else:
+        return metric
+    
+"""
 For each deployment in a deployment list, record metrics in 
 Cloudwatch for the number of desired, current, up-to-date, and
 available pods. Also record a binary health metric for each 
@@ -38,16 +53,16 @@ def record_deployment_metrics(cloudwatch, deployment_list):
         name = i.metadata.name
         
         #Number of available pods for the deployment. Value between 0 and n.
-        available = i.status.available_replicas
+        available = none_check(i.status.available_replicas)
         
         #Number of current pods for the deployment. Value between 0 and n.
-        current = i.status.replicas
+        current = none_check(i.status.replicas)
         
         #Number of up-to-date pods for the deployment. Value between 0 and n.
-        updated = i.status.updated_replicas
+        updated = none_check(i.status.updated_replicas)
         
         #Number of desired pods for the deployment. Value between 0 and n.
-        desired = i.spec.replicas
+        desired = none_check(i.spec.replicas)
         
         #Record the number of desired pods for the deployment
         metric_name = create_metric_name(name, '_deployment_desired')
@@ -121,10 +136,10 @@ def record_stateful_set_metrics(cloudwatch, stateful_set_list):
         name = i.metadata.name
         
         #Number of desired pods for the stateful set. Value between 0 and n.
-        desired = i.spec.replicas
+        desired = none_check(i.spec.replicas)
         
         #Number of current pods for the stateful set. Value between 0 and n.
-        current = i.status.current_replicas
+        current = none_check(i.status.current_replicas)
         
         #Record the number of desired pods for the stateful set
         metric_name = create_metric_name(name, '_statefulset_desired')
