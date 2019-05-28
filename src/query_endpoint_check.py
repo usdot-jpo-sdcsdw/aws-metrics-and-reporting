@@ -52,7 +52,7 @@ def check_query_endpoint(url, json_data, username, password):
                             1.0
                           )
     else:
-        print("POST request returned a non-200 status code: " + str(resp.status_code))
+        print("POST request returned a non-200 status code: " + str(response.status_code))
         put_metric_wrapper(
 		                    cloudwatch, 
                             'query-endpoint', 

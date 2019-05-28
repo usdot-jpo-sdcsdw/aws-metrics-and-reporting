@@ -35,9 +35,9 @@ Else, record a value of 0.0 in cloudwatch
 """
 def test_nginx_redirect(url):
     cloudwatch = boto3.client('cloudwatch')
-    resp = requests.head(url)
+    response = requests.head(url)
 	
-    if resp.status_code == 302:
+    if response.status_code == 302:
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
@@ -47,7 +47,7 @@ def test_nginx_redirect(url):
                                     1.0
                                 )
     else:
-        print("HEAD request returned a non-302 status code: " + str(resp.status_code))
+        print("HEAD request returned a non-302 status code: " + str(response.status_code))
         put_metric_data_wrapper(
                                     cloudwatch, 
                                     'nginx', 
